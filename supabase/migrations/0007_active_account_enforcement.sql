@@ -1,0 +1,82 @@
+-- =====================================================================
+-- Nagar Para Agragami Youth Sangha — Security Fix (owner-approved)
+-- Migration 0007: Active Account Enforcement.
+--
+-- Problem (verified in the §6 Final Security Review follow-up audit):
+-- public.current_user_role() (migration 0001) returns the caller's
+-- role from public.profiles WITHOUT checking profiles.is_active.
+-- The Admin UI blocks inactive profiles (RequireAdmin), but that is
+-- presentation only: a deactivated admin/editor whose Supabase
+-- session (JWT) is still valid keeps full database permissions via
+-- direct API calls, because every RLS helper derives from this one
+-- function. An inactive SUPER_ADMIN could even keep managing
+-- profiles and roles (the profiles write policy compares
+-- current_user_role() = 'super_admin').
+--
+-- Fix: redefine ONLY this function, adding the is_active condition.
+-- Name, return type (public.user_role), language, STABLE volatility,
+-- SECURITY DEFINER and search_path are preserved exactly as in 0001,
+-- so:
+--   * is_admin(), can_edit_content(), can_manage_finance() and every
+--     dependent RLS policy (tables, storage, views, the players
+--     publish-approval trigger, and migration 0006's admin-only
+--     DELETE policies) inherit the enforcement with NO policy edits.
+--   * SECURITY DEFINER still bypasses RLS on profiles inside the
+--     function, so there is no RLS recursion (same design as 0001;
+--     the profiles SELECT policy calls is_admin(), which resolves
+--     through this definer function, not through the policy itself).
+--   * CREATE OR REPLACE preserves the function's existing grants.
+--
+-- Behaviour after this migration:
+--   * Active profile          -> role returned, exactly as before.
+--   * Inactive profile        -> NULL -> all helpers evaluate false:
+--     no content/finance/admin writes, no profile/role management,
+--     no admin-only deletes (0006 stays intact and now also requires
+--     an ACTIVE admin).
+--   * No profile row / anon   -> NULL, exactly as before.
+--   * Reactivating a profile (is_active = true) restores its
+--     permissions immediately; no token or policy change is needed.
+-- Untouched by design:
+--   * Public reads of published content (policies do not call this
+--     function for the public branch).
+--   * Reading one's own profile row (profiles policy branch
+--     "id = auth.uid()" does not depend on this function).
+--
+-- RECOVERY — read before anyone deactivates accounts:
+--   If the LAST active super_admin is deactivated, nobody can manage
+--   profiles through the app or API any more (by design). Recovery
+--   is owner-only, via the Supabase Dashboard SQL Editor, which runs
+--   with the service role and bypasses RLS:
+--       update public.profiles
+--          set is_active = true
+--        where id = '<the super_admin user uuid>';
+--   Prevention: always keep at least two active super_admin
+--   profiles, and never deactivate your own last admin account.
+--
+-- Apply AFTER 0001–0006, in order, exactly once (run-once draft,
+-- like the others). NOT applied anywhere yet — no Supabase project
+-- exists as of 2026-10-23.
+-- =====================================================================
+
+create or replace function public.current_user_role()
+returns public.user_role
+language sql stable security definer set search_path = public
+as $$
+  select role from public.profiles where id = auth.uid() and is_active
+$$;
+
+-- =====================================================================
+-- VERIFY AFTER RUNNING (Supabase SQL Editor / API, per role):
+--  1. ACTIVE editor: insert/update on players, matches, news —
+--     MUST succeed (unchanged). ACTIVE admin: performance delete
+--     (0006) — MUST succeed.
+--  2. Deactivate that editor (is_active = false), reuse the SAME
+--     session token: every write MUST fail; select
+--     public.current_user_role() MUST return NULL.
+--  3. Deactivate a super_admin: profiles insert/update/delete MUST
+--     fail with the same token.
+--  4. Reactivate both profiles: all permissions in (1) MUST return.
+--  5. As ANON: published matches/players/news still readable;
+--     a signed-in inactive user can still select their OWN profile
+--     row (id = auth.uid() branch).
+-- =====================================================================

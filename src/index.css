@@ -1,0 +1,88 @@
+@import "tailwindcss";
+
+/*
+  Organization brand colors — fixed by the organization (Phase 1/2 brief).
+  Do not change without the organization's approval.
+    Dark Green  #17623D  (primary)
+    White       #FFFFFF  (background)
+    Gold        #F3C64E  (accent)
+*/
+@theme {
+  --color-brand: #17623d;
+  --color-brand-dark: #0f4a2e;
+  --color-brand-light: #e8f3ec;
+  --color-gold: #f3c64e;
+  --color-gold-dark: #d9a92f;
+
+  /* Aliases the admin/public components were written against
+     (bg-primary, text-dark-green, ring-accent, …). They map to
+     the SAME brand values above — added 2026-10-24 because the
+     classes were used across the panel but never defined, so
+     primary buttons rendered without their green background. */
+  --color-primary: #17623d;
+  --color-dark-green: #0f4a2e;
+  --color-accent: #f3c64e;
+
+  --font-sans: "Hind Siliguri", "Noto Sans Bengali", system-ui, "Segoe UI",
+    Roboto, sans-serif;
+}
+
+body {
+  @apply bg-white font-sans text-neutral-800 antialiased;
+}
+
+/* Entrance animation for the member/committee photo cards
+   (public Members page): a gentle rise + fade, staggered by
+   inline animation-delay. */
+@keyframes card-rise {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-card-rise {
+  animation: card-rise 0.55s ease-out both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-card-rise {
+    animation: none;
+  }
+}
+
+/*
+  Unified public card design (R-07.3, 2026-10-25 — the owner's
+  "every card, one design" instruction). EVERY public card —
+  homepage previews, news, gallery, players, matches, members —
+  is built from these shared classes so the whole site carries
+  one design language and one hover behaviour:
+    .np-card       the shell (white, brand-tinted border + shadow)
+    .np-card-hover lift + deeper shadow + gold-tinted border
+    .np-gold-line  the gold strip across the card's top edge
+    .np-media      the soft branded backdrop behind card media
+                   (transparent cut-out photos sit on it by design)
+    .np-chip       the uniform subtitle/label pill
+  Card images additionally zoom gently via group-hover.
+*/
+@layer components {
+  .np-card {
+    @apply overflow-hidden rounded-2xl border border-brand/10 bg-white shadow-[0_1px_4px_rgba(23,98,61,0.08)];
+  }
+  .np-card-hover {
+    @apply transition duration-300 hover:-translate-y-1 hover:border-gold/60 hover:shadow-[0_14px_30px_rgba(23,98,61,0.16)];
+  }
+  .np-gold-line {
+    @apply block h-1 shrink-0 bg-gradient-to-r from-gold via-gold-dark to-gold;
+  }
+  .np-media {
+    @apply relative w-full overflow-hidden bg-gradient-to-b from-white via-brand-light to-brand/20;
+  }
+  .np-chip {
+    @apply inline-block max-w-full truncate rounded-full bg-brand-light px-3 py-0.5 text-xs font-semibold text-brand-dark;
+  }
+}

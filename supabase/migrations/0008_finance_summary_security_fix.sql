@@ -1,0 +1,79 @@
+-- =====================================================================
+-- Nagar Para Agragami Youth Sangha — Finance Security Fix
+-- Migration 0008: finance_summary security_invoker (owner-approved
+-- draft, 2026-10-23). NOT applied anywhere — no Supabase project
+-- exists yet.
+--
+-- Problem (verified by re-reading migration 0001, lines 370–394):
+-- public.finance_transactions is protected by RLS — anonymous and
+-- other non-finance callers may read only rows with is_public = true,
+-- while finance roles (super_admin, admin, finance_manager, via
+-- can_manage_finance()) may read everything. BUT the aggregate view
+-- public.finance_summary was created as a plain view:
+--
+--     create or replace view public.finance_summary as
+--     select ... sums over ALL of finance_transactions ...
+--
+-- A plain PostgreSQL view executes with its OWNER's permissions, so
+-- the base table's RLS does not apply to the view's caller. Anyone
+-- who can select the view through the API (including anonymous
+-- callers) therefore receives the organisation's FULL totals —
+-- total_income, total_expense, total_withdrawn, total_transferred
+-- and current_balance computed over every transaction, including
+-- the non-public ones the table policies deliberately hide. Row
+-- details do not leak; the aggregate financial position does.
+--
+-- Fix: switch the view to security_invoker so it executes with the
+-- CALLER's permissions and finance_transactions' RLS applies:
+--   * anon / viewer / editor (non-finance roles): the view now
+--     aggregates only the is_public rows they may see — exactly the
+--     figures the public Finance page is meant to show.
+--   * finance_manager / admin / super_admin: they may read all rows,
+--     so they keep receiving the full totals, unchanged.
+-- The view's SELECT, columns and the approved balance rule
+-- (income + subscription + donation − expense; withdrawal/transfer
+-- never reduce the balance) are NOT touched — this file changes
+-- only the view's security option, via ALTER VIEW ... SET, so the
+-- stored query definition cannot drift.
+--
+-- Compatibility: security_invoker views require PostgreSQL 15+.
+-- Every current Supabase project runs PostgreSQL 15 or 17, and this
+-- codebase already depends on the same feature — migrations 0004 and
+-- 0005 create football_season_stats / cricket_season_stats
+-- WITH (security_invoker = true). If 0004 runs, this fix runs.
+-- Nothing in the frontend reads finance_summary (the homepage and
+-- the admin dashboard aggregate finance_transactions rows directly),
+-- so this fix has no app-code impact; it closes an API-only leak.
+--
+-- Apply in the established order — after 0001 (its only dependency)
+-- and, in the full sequence, after 0007 and before 0009 — exactly
+-- once. (Unlike most drafts here, this statement is idempotent:
+-- running it twice is harmless. Keep the sequence anyway.)
+-- =====================================================================
+
+alter view public.finance_summary set (security_invoker = true);
+
+-- =====================================================================
+-- VERIFY AFTER RUNNING (Supabase SQL Editor / REST API, per role).
+-- Preparation: make sure at least one is_public income row AND at
+-- least one NON-public (is_public = false) expense row exist, so
+-- public-only totals and full totals visibly differ.
+--  0. select relname, reloptions from pg_class
+--     where relname = 'finance_summary';
+--     -> reloptions MUST contain security_invoker=true.
+--  1. ANON (no session), GET /rest/v1/finance_summary:
+--     totals MUST equal the sums over is_public rows ONLY, and MUST
+--     differ from the full totals while the non-public expense
+--     exists. (Before this fix, anon received the full totals.)
+--  2. VIEWER and EDITOR sessions: same public-only totals as anon —
+--     neither is a finance role.
+--  3. FINANCE_MANAGER session: FULL totals (all rows) — unchanged.
+--  4. ADMIN and SUPER_ADMIN sessions: FULL totals — unchanged.
+--  5. Regression: the public Finance page figures (is_public rows)
+--     are unchanged; the approved balance rule still holds —
+--     current_balance = (income + subscription + donation) − expense,
+--     with withdrawals/transfers reported but never subtracted.
+--  6. Regression: finance_transactions policies untouched — anon
+--     direct table reads still return only is_public rows; finance
+--     writes still require can_manage_finance().
+-- =====================================================================
