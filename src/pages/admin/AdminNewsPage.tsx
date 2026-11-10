@@ -193,10 +193,7 @@ export default function AdminNewsPage() {
       <div className="flex flex-wrap items-start justify-between gap-3">
         <div>
           <h1 className="text-xl font-bold text-dark-green">সংবাদ, কার্যক্রম ও নোটিশ</h1>
-          <p className="mt-1 text-sm text-slate-500">
-            সব পোস্ট এক জায়গায় পরিচালনা করুন।
-          </p>
-        </div>
+                  </div>
         {canEdit && (
           <button type="button" onClick={openCreate} className="rounded-md bg-primary px-4 py-2 text-sm font-semibold text-white transition hover:bg-dark-green">
             + নতুন পোস্ট
@@ -262,7 +259,7 @@ export default function AdminNewsPage() {
                 onChange={(e) => setForm({ ...form, slug: e.target.value })}
                 placeholder={editing === "new" && form.title ? generateSlug(form.title, "••••••") : "খালি রাখলে শিরোনাম থেকে তৈরি হবে"}
               />
-              <p className="mt-1 text-xs text-slate-500">শুধু ছোট হাতের ইংরেজি অক্ষর, সংখ্যা ও হাইফেন। প্রতিটি পোস্টের Slug আলাদা হতে হবে।</p>
+              <p className="mt-1 text-xs text-slate-500">শুধু ছোট হাতের ইংরেজি অক্ষর, সংখ্যা ও হাইফেন; প্রতিটি Slug আলাদা।</p>
               {fieldErrors.slug && <p className="mt-1 text-xs text-red-600">{fieldErrors.slug}</p>}
             </div>
             <div className="sm:col-span-2">
@@ -331,7 +328,7 @@ export default function AdminNewsPage() {
                     placeholder="https://…"
                     inputMode="url"
                   />
-                  <p className="mt-1 text-xs text-slate-500">বাটন দিতে হলে লেখা ও লিংক দুটোই লাগবে; লিংক শুধু http(s) হতে পারবে।</p>
+                  <p className="mt-1 text-xs text-slate-500">বাটনের লেখা ও লিংক দুটোই লাগবে; লিংক শুধু http(s)।</p>
                   {fieldErrors.button_url && <p className="mt-1 text-xs text-red-600">{fieldErrors.button_url}</p>}
                 </div>
               </>

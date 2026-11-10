@@ -139,10 +139,7 @@ export default function AdminVillageCategoriesPage() {
   return (
     <div className="max-w-4xl">
       <h1 className="text-xl font-bold text-brand-dark">ক্যাটাগরি পরিচালনা</h1>
-      <p className="mt-1 text-sm leading-relaxed text-neutral-500">
-        গ্রাম পেজের ক্যাটাগরি (চিপ ও সেকশন) পরিচালনা করুন।
-      </p>
-
+      
       {!isConfigured ? (
         <p className="mt-4 rounded-2xl border border-amber-200 bg-amber-50 p-5 text-sm text-amber-800">
           Supabase সংযুক্ত নয় — সংরক্ষণ করা যাবে না।
@@ -185,9 +182,7 @@ export default function AdminVillageCategoriesPage() {
                       placeholder="যেমন: utsob"
                       maxLength={40}
                     />
-                    <p className="mt-1 text-xs text-neutral-400">
-                      পেজের Anchor ও Section-এর Block হিসেবে ব্যবহৃত হয় — তৈরি করার পর আর বদলানো যায় না।
-                    </p>
+                    <p className="mt-1 text-xs text-neutral-400">তৈরি করার পর বদলানো যায় না।</p>
                   </div>
                   <p className="text-sm text-neutral-600">
                     ধরন: <span className="font-medium text-neutral-800">সাধারণ লেখা</span>
@@ -363,10 +358,7 @@ export default function AdminVillageCategoriesPage() {
                 ))}
               </ul>
             )}
-            <p className="mt-3 text-xs leading-relaxed text-neutral-400">
-              ক্যাটাগরি মুছলে শুধু ক্যাটাগরির তথ্য মুছে যায়; ওই Block-এর Section-গুলো Database-এ থেকে যায়, তবে
-              Public Page-এ আর দেখা যায় না।
-            </p>
+            <p className="mt-3 text-xs leading-relaxed text-neutral-400">ক্যাটাগরি মুছলে ওই Block-এর Section Public Page-এ আর দেখাবে না।</p>
           </section>
         </>
       )}

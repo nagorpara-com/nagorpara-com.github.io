@@ -5,7 +5,7 @@
  * ডাউনলোড that saves the sheet as a real PDF file, with no
  * print dialog in between.
  *
- * How it works: the sheet's own DOM node is rasterised with
+ * How it works: the sheet's DOM node is rasterised with
  * html-to-image (the browser renders the clone itself, so the
  * Tailwind v4 oklch colours and the Hind Siliguri webfont come
  * out exactly as on screen — the older html2canvas parser
@@ -13,6 +13,17 @@
  * page with jsPDF, scaled to fit the page. Both libraries are
  * loaded with dynamic import() on click only, so they ship as
  * a separate lazy chunk and never grow the initial bundle.
+ *
+ * Capture width (v184): the raster is ALWAYS taken from a
+ * clone of the sheet laid out at its full A4 design width
+ * (210mm ≈ 794px), never from the on-screen node. On a phone
+ * the preview sheet is capped by its max-w-full to the
+ * viewport width, so capturing the visible node produced a
+ * squeezed narrow-strip PDF with reflowed text (the owner's
+ * real download measured 784×2602 against the desktop's
+ * 1588×2246). The clone lives in an off-screen host only for
+ * the duration of the capture; the visible preview — and the
+ * প্রিন্ট করুন browser-print path — are never touched.
  *
  * Failure behaviour: any error (library load, rasterise, or
  * PDF build) rejects the promise; the caller shows a plain
@@ -65,37 +76,57 @@ export async function downloadSheetPdf(
     import("jspdf"),
   ]);
 
-  const canvas = await toCanvas(sheet, {
-    backgroundColor: "#ffffff",
-    pixelRatio: 2,
-    cacheBust: true,
-    imagePlaceholder: EMPTY_IMAGE,
-    onImageErrorHandler: () => undefined,
-  });
-  if (!canvas.width || !canvas.height) {
-    throw new Error("Sheet render produced an empty image");
-  }
+  // Lay a clone of the sheet out at the full design width in
+  // an off-screen host (far left of the viewport, never
+  // visible, removed as soon as the capture settles). The
+  // clone drops the sheet's id so the document never holds
+  // two elements with the print sheet's id at once; raster
+  // output does not depend on it. The sheet contents use no
+  // viewport-responsive sizing, so at 794px the clone lays
+  // out exactly like the desktop preview.
+  const host = document.createElement("div");
+  host.setAttribute("aria-hidden", "true");
+  host.style.cssText =
+    "position:fixed;left:-10000px;top:0;width:794px;pointer-events:none;";
+  const clone = sheet.cloneNode(true) as HTMLElement;
+  clone.removeAttribute("id");
+  host.appendChild(clone);
+  document.body.appendChild(host);
+  try {
+    const canvas = await toCanvas(clone, {
+      backgroundColor: "#ffffff",
+      pixelRatio: 2,
+      cacheBust: true,
+      imagePlaceholder: EMPTY_IMAGE,
+      onImageErrorHandler: () => undefined,
+    });
+    if (!canvas.width || !canvas.height) {
+      throw new Error("Sheet render produced an empty image");
+    }
 
-  const pdf = new jsPDF({
-    orientation: "portrait",
-    unit: "mm",
-    format: "a4",
-    compress: true,
-  });
-  const fit = Math.min(
-    A4_WIDTH_MM / canvas.width,
-    A4_HEIGHT_MM / canvas.height,
-  );
-  const widthMm = canvas.width * fit;
-  const heightMm = canvas.height * fit;
-  const xMm = (A4_WIDTH_MM - widthMm) / 2;
-  pdf.addImage(
-    canvas.toDataURL("image/jpeg", 0.96),
-    "JPEG",
-    xMm,
-    0,
-    widthMm,
-    heightMm,
-  );
-  pdf.save(`${fileStem}.pdf`);
+    const pdf = new jsPDF({
+      orientation: "portrait",
+      unit: "mm",
+      format: "a4",
+      compress: true,
+    });
+    const fit = Math.min(
+      A4_WIDTH_MM / canvas.width,
+      A4_HEIGHT_MM / canvas.height,
+    );
+    const widthMm = canvas.width * fit;
+    const heightMm = canvas.height * fit;
+    const xMm = (A4_WIDTH_MM - widthMm) / 2;
+    pdf.addImage(
+      canvas.toDataURL("image/jpeg", 0.96),
+      "JPEG",
+      xMm,
+      0,
+      widthMm,
+      heightMm,
+    );
+    pdf.save(`${fileStem}.pdf`);
+  } finally {
+    host.remove();
+  }
 }

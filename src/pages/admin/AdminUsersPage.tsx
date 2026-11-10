@@ -132,10 +132,7 @@ export default function AdminUsersPage() {
     <div className="space-y-6">
       <div>
         <h1 className="text-xl font-bold text-neutral-900">ব্যবহারকারী ও অনুমতি</h1>
-        <p className="mt-1 text-sm text-neutral-600">
-            ব্যবহারকারীদের Role ও সক্রিয় অবস্থা পরিচালনা।
-          </p>
-      </div>
+              </div>
 
       {!usersApi.isConfigured ? (
         <p className="rounded-lg bg-amber-50 px-4 py-3 text-sm text-amber-800">

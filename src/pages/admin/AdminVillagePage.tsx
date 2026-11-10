@@ -170,10 +170,7 @@ export default function AdminVillagePage() {
   return (
     <div className="max-w-4xl">
       <h1 className="text-xl font-bold text-brand-dark">গ্রামের পরিচিতি ও ইতিহাস</h1>
-      <p className="mt-1 text-sm leading-relaxed text-neutral-500">
-            গ্রাম পেজের Section পরিচালনা।
-          </p>
-
+      
       <div className="mt-4">
         <VillagePageSettingsCard />
       </div>
@@ -392,9 +389,7 @@ export default function AdminVillagePage() {
             ))}
           </ul>
         )}
-        <p className="mt-3 text-xs leading-relaxed text-neutral-400">
-          Section মুছলে শুধু Database-এর তথ্য মুছে যায়; আপলোড করা ছবি Storage-এ থেকে যায়।
-        </p>
+        <p className="mt-3 text-xs leading-relaxed text-neutral-400">Section মুছলে আপলোড করা ছবি Storage-এ থেকে যায়।</p>
       </section>
     </div>
   );

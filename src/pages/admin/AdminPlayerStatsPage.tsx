@@ -120,10 +120,7 @@ export default function AdminPlayerStatsPage() {
       <div className="flex flex-wrap items-start justify-between gap-3">
         <div>
           <h1 className="text-xl font-bold text-brand-dark">পরিসংখ্যান ও প্রকাশ</h1>
-          <p className="mt-1 text-sm text-neutral-500">
-            প্লেয়ারদের পরিসংখ্যান ও প্রকাশ পরিচালনা।
-          </p>
-        </div>
+                  </div>
       </div>
 
       {error && (

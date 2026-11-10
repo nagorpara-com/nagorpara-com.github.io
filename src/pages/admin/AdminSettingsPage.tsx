@@ -358,10 +358,7 @@ export default function AdminSettingsPage() {
   return (
     <div className="max-w-3xl">
       <h1 className="text-xl font-bold text-brand-dark">Website Settings</h1>
-      <p className="mt-1 text-sm text-neutral-500">
-            সব সেটিংস এখান থেকে বদলান।
-          </p>
-
+      
       {loading && <p className="mt-6 text-sm text-neutral-500">তথ্য লোড হচ্ছে…</p>}
       {loadError && (
         <div className="mt-4 rounded-xl border border-red-200 bg-red-50 p-4 text-sm text-red-800" role="alert">
@@ -465,8 +462,7 @@ export default function AdminSettingsPage() {
                     onChange={(e) => void handleLogoUpload(e.target.files?.[0])}
                   />
                 </label>
-                <p className="mt-1 text-xs text-neutral-500">Storage: site-assets Bucket-এ সংরক্ষিত হয়।</p>
-              </div>
+                              </div>
             </div>
             <div className="mt-3">
               {form.logoUrl && (

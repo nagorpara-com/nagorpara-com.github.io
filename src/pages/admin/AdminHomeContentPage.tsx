@@ -53,10 +53,7 @@ export default function AdminHomeContentPage() {
     <div className="grid gap-5">
       <div>
         <h1 className="text-xl font-bold text-dark-green">হোমপেজ পরিচালনা</h1>
-        <p className="mt-1 text-sm text-slate-500">
-            Section-এর ক্রম, দৃশ্যমানতা ও Hero-এর লেখা।
-          </p>
-      </div>
+              </div>
 
       {!sections.isConfigured && (
         <p className="rounded-lg border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-800">
@@ -104,8 +101,7 @@ export default function AdminHomeContentPage() {
           <section className="grid gap-4 rounded-lg border border-slate-200 bg-white p-4 sm:p-5" aria-label="Hero Section-এর লেখা">
             <div>
               <h2 className="font-bold text-dark-green">Hero Section-এর লেখা</h2>
-              <p className="mt-0.5 text-xs text-slate-500">Homepage-এর একদম উপরের অংশে এই লেখাগুলোই দেখায়।</p>
-            </div>
+                          </div>
             <div>
               <label className={labelCls} htmlFor="hc-hero-title">শিরোনাম</label>
               <input
@@ -144,10 +140,7 @@ export default function AdminHomeContentPage() {
           {/* Section list: name (management label), order, visibility. */}
           <section className="rounded-lg border border-slate-200 bg-white p-4 sm:p-5" aria-label="Section তালিকা">
             <h2 className="font-bold text-dark-green">Section-গুলো</h2>
-            <p className="mt-0.5 text-xs text-slate-500">
-              নামটি পরিচালনার তালিকায় ব্যবহৃত হয়। বন্ধ (Off) Section Public Homepage-এ দেখাবে না;
-              ক্রম বদলালে Homepage-এও সেই ক্রমেই সাজবে।
-            </p>
+            <p className="mt-0.5 text-xs text-slate-500">বন্ধ Section Homepage-এ দেখাবে না।</p>
             <ul className="mt-3 divide-y divide-slate-100">
               {sections.rows.map((row, index) => (
                 <li key={row.key} className="flex flex-wrap items-center gap-3 py-2.5">

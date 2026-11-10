@@ -52,10 +52,12 @@ export default function Footer() {
           </div>
 
           {/* Developer profile, desktop placement: directly
-              under the brand, as it has always been. The mobile
+              under the brand, as it has always been — nudged a
+              little lower at the owner's order (2026-11-10):
+              the wrapper's top margin is mt-4. The mobile
               placement (footers very end) is the second render
               below — exactly one of the two is ever visible. */}
-          <div className="mt-3 hidden lg:block">
+          <div className="mt-4 hidden lg:block">
             <DeveloperProfile />
           </div>
         </div>

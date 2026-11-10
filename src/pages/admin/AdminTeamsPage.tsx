@@ -459,8 +459,7 @@ export default function AdminTeamsPage() {
   return (
     <div className="mx-auto w-full max-w-4xl">
       <h1 className="text-xl font-bold text-brand-dark">টিম-নিবন্ধন</h1>
-      <p className="mt-1 text-sm text-slate-500">ফুটবল ও ক্রিকেটের টিম যোগ, সম্পাদনা ও মুছে ফেলুন।</p>
-
+      
       {t.unsupported ? (
         <div className="mt-4 rounded-2xl border border-amber-200 bg-amber-50 p-5">
           <p className="text-sm font-semibold text-amber-800">টিম-ব্যবস্থা এখনো চালু হয়নি</p>
@@ -525,9 +524,7 @@ export default function AdminTeamsPage() {
                       </option>
                     ))}
                   </select>
-                  <p className="mt-1 text-xs text-neutral-500">
-                    টুর্নামেন্ট না বাছলে টিমটি শুধু নিবন্ধিত হবে, কোনো Team ID পাবে না।
-                  </p>
+                  <p className="mt-1 text-xs text-neutral-500">টুর্নামেন্ট না বাছলে Team ID পাবে না।</p>
                   {selectedTournament && (
                     <div className="mt-2 rounded-lg bg-neutral-50 px-3 py-2 ring-1 ring-neutral-200">
                       <p className="text-xs font-semibold text-neutral-800">
@@ -561,9 +558,7 @@ export default function AdminTeamsPage() {
                       </option>
                     ))}
                   </select>
-                  <p className="mt-1 text-xs text-neutral-500">
-                    এই টুর্নামেন্টে যে ID অন্য টিম নিয়েছে, সেটি এই তালিকায় আসবে না।
-                  </p>
+                  <p className="mt-1 text-xs text-neutral-500">অন্য টিমের নেওয়া ID তালিকায় আসবে না।</p>
                 </div>
               )}
             </div>
@@ -711,7 +706,7 @@ export default function AdminTeamsPage() {
                   value={form.displayOrder}
                   onChange={(e) => setForm({ ...form, displayOrder: Number(e.target.value) || 0 })}
                 />
-                <p className="mt-1 text-xs text-neutral-500">ছোট সংখ্যা দিলে টিমটি তালিকায় আগে দেখাবে (0 = সবার আগে)।</p>
+                <p className="mt-1 text-xs text-neutral-500">ছোট সংখ্যা = আগে (0 = সবার আগে)।</p>
               </div>
               <label className="flex items-end gap-2 pb-2 text-sm font-medium text-neutral-700">
                 <input

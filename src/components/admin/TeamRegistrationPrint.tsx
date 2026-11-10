@@ -2,7 +2,6 @@ import { useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import type { Sport, Tournament } from "../../types/database.types";
 import { TOURNAMENT_STATUS_LABELS_BN } from "../../utils/matchDisplay";
-import { toBn } from "../../utils/format";
 import {
   asciiFileSlug,
   downloadSheetPdf,
@@ -43,8 +42,11 @@ import {
  * or repeated. v174 (owner's print fixes): the signature
  * তারিখ lines auto-fill the print day's date, the printed
  * sheet sizes to the page content box so imposed print
- * margins reflow instead of clipping, and a bare-year
- * মৌসুম prints in Bengali digits. The in-sheet tournament selector (combined
+ * margins reflow instead of clipping. v190 (owner's order,
+ * 2026-11-10): every number on the sheets prints in English
+ * (Latin) digits — dates, counts, points and the season
+ * year — superseding the v174 Bengali-digit rule; Bengali
+ * words and month names are unchanged. The in-sheet tournament selector (combined
  * mode, multiple entries) is likewise outside the sheet.
  */
 
@@ -94,17 +96,17 @@ function bnDate(iso: string | null | undefined): string {
   const d = new Date(iso);
   return Number.isNaN(d.getTime())
     ? iso
-    : d.toLocaleDateString("bn-BD", { dateStyle: "long" });
+    : d.toLocaleDateString("bn-BD-u-nu-latn", { dateStyle: "long" });
 }
 
 const dash = (v: string | null | undefined) => (v && v.trim() ? v : "—");
 
 /** মৌসুম as printed on the sheets: a bare 4-digit year is
- * rendered in Bengali digits like every other number on the
- * sheet (owner's print fix, v174); any other stored text is
- * printed unchanged. */
+ * stored in Latin digits and prints as-is, like every other
+ * number on the sheet (owner's digit rule, 2026-11-10);
+ * any other stored text is printed unchanged. */
 const seasonText = (v: string | null | undefined): string =>
-  v && /^\d{4}$/.test(v) ? toBn(v) : dash(v);
+  v && /^\d{4}$/.test(v) ? v : dash(v);
 
 /** Today's date in Asia/Dhaka, in the same long Bengali form
  * bnDate produces — auto-filled onto the signature তারিখ
@@ -112,7 +114,7 @@ const seasonText = (v: string | null | undefined): string =>
  * day it was produced (owner's print rule, 2026-11-05).
  * Stored/entered dates are never affected by this. */
 function printDayDate(): string {
-  return new Date().toLocaleDateString("bn-BD", {
+  return new Date().toLocaleDateString("bn-BD-u-nu-latn", {
     dateStyle: "long",
     timeZone: "Asia/Dhaka",
   });
@@ -248,7 +250,7 @@ function PointsTable({ tr }: { tr: Tournament }) {
               key={c.label}
               className="border border-neutral-300 py-[1.2mm] text-[11.5pt] font-bold text-neutral-900"
             >
-              {typeof c.value === "number" ? toBn(c.value) : "—"}
+              {typeof c.value === "number" ? String(c.value) : "—"}
             </td>
           ))}
         </tr>
@@ -316,7 +318,7 @@ function TournamentInfoSheet({
     { label: "পরিচালকের ফোন", value: dash(tr.director_phone) },
     {
       label: "মোট টিম",
-      value: tr.team_count ? `${toBn(tr.team_count)}টি` : "—",
+      value: tr.team_count ? `${tr.team_count}টি` : "—",
     },
   ];
   if (runnerUpName) {
@@ -325,18 +327,18 @@ function TournamentInfoSheet({
   if (typeof tr.squad_size === "number") {
     rows.push({
       label: "প্রতি দলে প্লেয়ার",
-      value: `${toBn(tr.squad_size)} জন`,
+      value: `${tr.squad_size} জন`,
     });
   }
   if (tr.sport === "football" && typeof tr.match_minutes === "number") {
     rows.push({
       label: "ম্যাচের সময়",
-      value: `${toBn(tr.match_minutes)} মিনিট`,
+      value: `${tr.match_minutes} মিনিট`,
     });
   }
   if (tr.sport === "cricket" && (typeof tr.cricket_overs === "number" || tr.ball_type)) {
     const parts: string[] = [];
-    if (typeof tr.cricket_overs === "number") parts.push(`${toBn(tr.cricket_overs)} ওভার`);
+    if (typeof tr.cricket_overs === "number") parts.push(`${tr.cricket_overs} ওভার`);
     if (tr.ball_type && tr.ball_type.trim()) parts.push(tr.ball_type.trim());
     rows.push({ label: "ম্যাচের সময়", value: parts.join(", ") });
   }
@@ -442,7 +444,7 @@ function TeamRegistrationSheet({
       ),
     },
     { label: "শুরুর তারিখ", value: bnDate(team.establishedDate) },
-    { label: "প্রদর্শনের ক্রম", value: toBn(team.displayOrder) },
+    { label: "প্রদর্শনের ক্রম", value: String(team.displayOrder) },
   ];
 
   return (

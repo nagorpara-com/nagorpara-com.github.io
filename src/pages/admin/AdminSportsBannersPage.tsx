@@ -120,8 +120,7 @@ export default function AdminSportsBannersPage() {
   return (
     <div>
       <h1 className="text-xl font-bold text-brand-dark">ক্রীড়া প্রতিযোগিতা ব্যানার</h1>
-      <p className="mt-1 text-sm text-neutral-500">ক্রীড়া পেজের দুইটি ব্যানার পরিচালনা করুন।</p>
-
+      
       {!isConfigured ? (
         <p className="mt-4 rounded-2xl border border-amber-200 bg-amber-50 p-5 text-sm text-amber-800">
           Supabase সংযুক্ত নয় — সংরক্ষণ করা যাবে না।

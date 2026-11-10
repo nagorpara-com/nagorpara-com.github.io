@@ -128,10 +128,7 @@ export default function AdminAuditLogPage() {
     <div className="grid gap-5">
       <div>
         <h1 className="text-xl font-bold text-dark-green">নিরীক্ষা লগ</h1>
-        <p className="mt-1 max-w-2xl text-sm text-slate-500">
-            পরিবর্তনের ইতিহাস — শুধু পড়ার জন্য।
-          </p>
-      </div>
+              </div>
 
       {audit.missingTable ? (
         <div className="rounded-lg border border-amber-200 bg-amber-50 px-4 py-6 text-center">

@@ -6,7 +6,6 @@ import type {
   PrintTeamInfo,
 } from "./TeamRegistrationPrint";
 import { MATCH_STATUS_LABELS_BN } from "../../utils/matchDisplay";
-import { toBn } from "../../utils/format";
 import {
   asciiFileSlug,
   downloadSheetPdf,
@@ -47,8 +46,11 @@ import {
  * v174 (owner's print fixes): the signature তারিখ line
  * auto-fills the print day's date, the printed sheet sizes
  * to the page content box so imposed print margins reflow
- * instead of clipping, and a bare-year মৌসুম prints in
- * Bengali digits.
+ * instead of clipping. v190 (owner's order, 2026-11-10):
+ * every number on the sheet prints in English (Latin)
+ * digits — dates, times and the season year — superseding
+ * the v174 Bengali-digit rule; Bengali words and month
+ * names are unchanged.
  */
 
 export interface MatchPrintSide {
@@ -78,7 +80,7 @@ function bnDate(iso: string | null | undefined): string {
   const d = new Date(iso);
   return Number.isNaN(d.getTime())
     ? iso
-    : d.toLocaleDateString("bn-BD", { dateStyle: "long" });
+    : d.toLocaleDateString("bn-BD-u-nu-latn", { dateStyle: "long" });
 }
 
 function bnTime(iso: string | null | undefined): string {
@@ -86,17 +88,17 @@ function bnTime(iso: string | null | undefined): string {
   const d = new Date(iso);
   return Number.isNaN(d.getTime())
     ? "—"
-    : d.toLocaleTimeString("bn-BD", { hour: "numeric", minute: "2-digit" });
+    : d.toLocaleTimeString("bn-BD-u-nu-latn", { hour: "numeric", minute: "2-digit" });
 }
 
 const dash = (v: string | null | undefined) => (v && v.trim() ? v : "—");
 
 /** মৌসুম as printed on the sheet: a bare 4-digit year is
- * rendered in Bengali digits like every other number on the
- * sheet (owner's print fix, v174); any other stored text is
- * printed unchanged. */
+ * stored in Latin digits and prints as-is, like every other
+ * number on the sheet (owner's digit rule, 2026-11-10);
+ * any other stored text is printed unchanged. */
 const seasonText = (v: string | null | undefined): string =>
-  v && /^\d{4}$/.test(v) ? toBn(v) : dash(v);
+  v && /^\d{4}$/.test(v) ? v : dash(v);
 
 /** Today's date in Asia/Dhaka, in the same long Bengali form
  * bnDate produces — auto-filled onto the signature তারিখ
@@ -104,7 +106,7 @@ const seasonText = (v: string | null | undefined): string =>
  * day it was produced (owner's print rule, 2026-11-05).
  * Stored/entered dates are never affected by this. */
 function printDayDate(): string {
-  return new Date().toLocaleDateString("bn-BD", {
+  return new Date().toLocaleDateString("bn-BD-u-nu-latn", {
     dateStyle: "long",
     timeZone: "Asia/Dhaka",
   });

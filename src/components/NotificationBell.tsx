@@ -119,7 +119,14 @@ export default function NotificationBell() {
       </button>
 
       {open && (
-        <div className="absolute right-0 top-[calc(100%+10px)] z-50 w-[min(92vw,380px)] overflow-hidden rounded-2xl bg-white shadow-2xl ring-1 ring-slate-200">
+        // Mobile (<sm): the bell wrapper sits 62px from the right
+        // edge, so a right-anchored 380px panel ran off the left of
+        // the screen (owner report, 2026-11-08). On mobile the
+        // panel is viewport-fixed with equal 16px side margins —
+        // centred and fully visible; top 66px is the same offset
+        // the anchored panel had (bell bottom 56px + 10px). From
+        // sm up the original anchored dropdown is unchanged.
+        <div className="fixed left-4 right-4 top-[66px] z-50 overflow-hidden rounded-2xl bg-white shadow-2xl ring-1 ring-slate-200 sm:absolute sm:left-auto sm:right-0 sm:top-[calc(100%+10px)] sm:w-[min(92vw,380px)]">
           <div className="flex items-center justify-between gap-2 bg-brand px-4 py-3">
             <span className="font-bold text-white">নোটিফিকেশন</span>
             {unread > 0 && (

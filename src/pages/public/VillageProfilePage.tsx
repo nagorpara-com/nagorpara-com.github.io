@@ -9,6 +9,7 @@ import { useSiteSettings } from "../../hooks/useSiteSettings";
 import { usePublicVillageBanners, type VillageBannerSlide } from "../../hooks/usePublicVillageBanners";
 import { useVillageLocationPublic } from "../../hooks/useVillageLocation";
 import { safeHttpUrl } from "../../utils/safeUrl";
+import { youtubeEmbedUrl } from "../../utils/youtube";
 import type { VillageCategory } from "../../types/database.types";
 import { ABOUT_TEXT } from "../../config/homepage";
 
@@ -105,23 +106,38 @@ function SectionShell({
 function SectionArticles({ sections }: { sections: VillageSectionRow[] }) {
   return (
     <div className="space-y-8">
-      {sections.map((section) => (
-        <article key={section.id}>
-          <h3 className="text-lg font-bold text-brand-dark">{section.title}</h3>
-          {section.image_url && (
-            <img src={section.image_url} alt="" className="mt-3 aspect-[16/7] w-full rounded-2xl object-cover" loading="lazy" />
-          )}
-          {section.video_url && (
-            <video
-              src={section.video_url}
-              controls
-              preload="metadata"
-              className="mt-3 aspect-video w-full rounded-2xl bg-black object-contain"
-            />
-          )}
-          {section.content && <p className="mt-2 whitespace-pre-line leading-relaxed text-neutral-700">{section.content}</p>}
-        </article>
-      ))}
+      {sections.map((section) => {
+        // v193: a YouTube link renders as an embed; an uploaded
+        // file URL keeps the plain video player.
+        const ytEmbed = section.video_url ? youtubeEmbedUrl(section.video_url) : null;
+        return (
+          <article key={section.id}>
+            <h3 className="text-lg font-bold text-brand-dark">{section.title}</h3>
+            {section.image_url && (
+              <img src={section.image_url} alt="" className="mt-3 aspect-[16/7] w-full rounded-2xl object-cover" loading="lazy" />
+            )}
+            {section.video_url &&
+              (ytEmbed ? (
+                <iframe
+                  src={ytEmbed}
+                  title={section.title}
+                  className="mt-3 aspect-video w-full rounded-2xl bg-black"
+                  loading="lazy"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                  allowFullScreen
+                />
+              ) : (
+                <video
+                  src={section.video_url}
+                  controls
+                  preload="metadata"
+                  className="mt-3 aspect-video w-full rounded-2xl bg-black object-contain"
+                />
+              ))}
+            {section.content && <p className="mt-2 whitespace-pre-line leading-relaxed text-neutral-700">{section.content}</p>}
+          </article>
+        );
+      })}
     </div>
   );
 }

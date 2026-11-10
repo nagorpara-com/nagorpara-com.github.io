@@ -766,9 +766,7 @@ export default function AdminFinancePage() {
                 ))}
               </ul>
             )}
-            <p className="px-4 py-2 text-[11px] text-neutral-400">
-              এই ইতিহাস Database স্বয়ংক্রিয়ভাবে লেখে — এখান থেকে বদলানো বা মোছা যায় না।
-            </p>
+            <p className="px-4 py-2 text-[11px] text-neutral-400">এই ইতিহাস বদলানো বা মোছা যায় না।</p>
           </section>
         </>
       )}

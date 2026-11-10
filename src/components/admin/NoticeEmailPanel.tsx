@@ -153,7 +153,7 @@ export default function NoticeEmailPanel({
               <span className="break-all text-xs text-slate-500">{post.button_url}</span>
             </p>
           )}
-          <p className="mt-2 text-xs text-slate-500">সঙ্গে থাকবে: ওয়েবসাইটে সম্পূর্ণ নোটিশের লিংক (/#/news/{post.slug}) ও প্রতিটি প্রাপকের নিজস্ব আনসাবস্ক্রাইব লিংক।</p>
+          <p className="mt-2 text-xs text-slate-500">সঙ্গে থাকবে: নোটিশের লিংক ও আনসাবস্ক্রাইব লিংক।</p>
         </section>
 
         <p className="mb-4 rounded-lg border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-800">

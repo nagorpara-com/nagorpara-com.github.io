@@ -76,10 +76,7 @@ export default function AdminVillageLocationPage() {
   return (
     <div className="max-w-4xl">
       <h1 className="text-xl font-bold text-brand-dark">অবস্থান ও ঠিকানা</h1>
-      <p className="mt-1 text-sm leading-relaxed text-neutral-500">
-            ঠিকানার চারটি ঘর ও পূর্ণ ঠিকানা।
-          </p>
-
+      
       {migrationPending && (
         <div className="mt-4 rounded-xl border border-amber-200 bg-amber-50 p-4 text-sm text-amber-800" role="alert">
           এই অংশের Database আপডেট (migration 0034) এখনো লাইভে চালানো হয়নি — আপডেট

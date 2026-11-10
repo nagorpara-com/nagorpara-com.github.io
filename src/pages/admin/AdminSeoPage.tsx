@@ -19,7 +19,7 @@ const inputCls =
 const labelCls = "mb-1 block text-sm font-medium text-neutral-700";
 
 const DEFAULT_DESCRIPTION =
-  "নগর পাড়া অগ্রগামী যুব সংঘ — অফিসিয়াল ওয়েবসাইট। ফুটবল ও ক্রিকেট টিম, ম্যাচ, সংবাদ, গ্যালারি ও সংগঠনের কার্যক্রম।";
+  "নগর পাড়া অগ্রগামী যুব সংঘের অফিসিয়াল ওয়েবসাইট — নগর পাড়া, তাড়াশ, সিরাজগঞ্জের যুব সংগঠন। ফুটবল ও ক্রিকেট, টুর্নামেন্ট, ম্যাচ, সংবাদ, নোটিশ ও সামাজিক কার্যক্রমের সব তথ্য।";
 
 export default function AdminSeoPage() {
   const { isConfigured, loading, loadError, settings, saveSettings, seoMigrationPending, fetchSeoMeta } =
@@ -83,10 +83,7 @@ export default function AdminSeoPage() {
   return (
     <div className="mx-auto w-full max-w-3xl">
       <h1 className="text-xl font-bold text-brand-dark">SEO ও মেটা</h1>
-      <p className="mt-1 text-sm text-neutral-500">
-            শেয়ারে দেখানো শিরোনাম, বর্ণনা ও ছবি।
-          </p>
-
+      
       {!isConfigured ? (
         <p className="mt-4 rounded-2xl border border-amber-200 bg-amber-50 p-5 text-sm text-amber-800">
           Supabase সংযুক্ত নয় — সংরক্ষণ করা যাবে না।

@@ -244,10 +244,7 @@ export default function AdminPagesSectionsPage() {
   return (
     <div className="max-w-4xl">
       <h1 className="text-xl font-bold text-brand-dark">পেজ ও সেকশন</h1>
-      <p className="mt-1 text-sm text-neutral-500">
-            সব Page-এর অবস্থা ও পরিচালনার জায়গা।
-          </p>
-
+      
       <div className="mt-4 flex flex-wrap items-center gap-2">
         <input
           type="search"

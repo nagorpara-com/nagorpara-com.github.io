@@ -1,5 +1,6 @@
 import { useRef, useState } from "react";
 import { supabase } from "../../lib/supabaseClient";
+import { compressImageForUpload } from "../../utils/compressImage";
 
 /**
  * Photo upload field for admin forms (members, committee,
@@ -66,10 +67,15 @@ export default function PhotoUploadField({
     if (preview) URL.revokeObjectURL(preview);
     setPreview(URL.createObjectURL(file));
     setUploading(true);
-    const path = `${pathPrefix}/${Date.now()}-${Math.random().toString(36).slice(2, 8)}-${file.name.replace(/[^\w.-]+/g, "_")}`;
+    // v191: shrink the photo in the browser before it is
+    // stored, so Storage (and every visitor's download of it)
+    // stays light. Falls back to the original file untouched
+    // whenever compression does not apply.
+    const uploadFile = await compressImageForUpload(file);
+    const path = `${pathPrefix}/${Date.now()}-${Math.random().toString(36).slice(2, 8)}-${uploadFile.name.replace(/[^\w.-]+/g, "_")}`;
     const { error: upErr } = await supabase.storage
       .from(bucket)
-      .upload(path, file);
+      .upload(path, uploadFile);
     if (upErr) {
       setUploading(false);
       setPreview(null);
@@ -143,7 +149,7 @@ export default function PhotoUploadField({
             <p className="text-xs font-medium text-slate-500">প্রস্তাবিত সাইজ: {sizeHint}</p>
           )}
           {!hideHint && (
-            <p className="text-xs text-slate-400">JPG/PNG ছবি, সর্বোচ্চ 2 MB।</p>
+            <p className="text-xs text-slate-400">JPG/PNG, সর্বোচ্চ 2 MB।</p>
           )}
           {error && <p className="text-xs font-medium text-red-600">{error}</p>}
         </div>

@@ -210,10 +210,7 @@ export default function AdminWelcomeEmailPage() {
               aria-invalid={!!bodyError}
               className="mt-1.5 w-full rounded-md border border-slate-300 px-3 py-2 text-sm leading-relaxed text-slate-800 outline-none focus:border-primary focus:ring-2 focus:ring-primary/30"
             />
-            <p className="mt-1 text-xs text-slate-400">
-              ফাঁকা লাইন দিলে নতুন অনুচ্ছেদ হবে। লেখা হুবহু টেক্সট হিসেবে
-              যাবে — কোনো কোড/ট্যাগ কাজ করবে না।
-            </p>
+            <p className="mt-1 text-xs text-slate-400">ফাঁকা লাইনে নতুন অনুচ্ছেদ হবে।</p>
             {bodyError && (
               <p role="alert" className="mt-1 text-sm font-medium text-red-500">
                 {bodyError}
@@ -238,10 +235,7 @@ export default function AdminWelcomeEmailPage() {
                 {testing ? "পাঠানো হচ্ছে..." : "আমাকে টেস্ট ইমেইল পাঠাও"}
               </button>
             </div>
-            <p className="mt-2 text-xs text-slate-400">
-              টেস্ট ইমেইল যায় বর্তমান (Save না করা হলেও) লেখা দিয়ে, শুধু
-              আপনার নিজের লগইন ইমেইলে।
-            </p>
+            <p className="mt-2 text-xs text-slate-400">টেস্ট ইমেইল শুধু আপনার লগইন ইমেইলে যায় (Save ছাড়াই)।</p>
             {saveMessage && (
               <p
                 role="status"
@@ -295,16 +289,9 @@ export default function AdminWelcomeEmailPage() {
                 <p className="text-sm text-slate-400">(বার্তা খালি)</p>
               )}
               <hr className="my-4 border-slate-100" />
-              <p className="text-xs leading-relaxed text-slate-400">
-                ইমেইলের নিচে সংগঠনের ফুটার (নাম, ঠিকানা, ফেসবুক লিংক) ও
-                প্রতিটি গ্রাহকের নিজস্ব আনসাবস্ক্রাইব লিংক সার্ভার থেকে
-                স্বয়ংক্রিয়ভাবে যোগ হয় — সেগুলো এখানে সম্পাদনা করা যায় না।
-              </p>
+              <p className="text-xs leading-relaxed text-slate-400">ফুটার ও আনসাবস্ক্রাইব লিংক সার্ভার থেকে নিজে নিজে যোগ হয়।</p>
             </div>
-            <p className="mt-3 text-xs text-slate-400">
-              প্রিভিউতে শুধু আপনার লেখা অংশটুকু দেখানো হয়েছে; আসল ইমেইলে
-              একই লেখা responsive HTML ও plain-text — দুই সংস্করণেই যাবে।
-            </p>
+            <p className="mt-3 text-xs text-slate-400">প্রিভিউতে শুধু লেখা অংশটুকু দেখানো হয়েছে।</p>
           </section>
         </div>
       )}

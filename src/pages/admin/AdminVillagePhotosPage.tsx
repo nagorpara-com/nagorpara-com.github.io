@@ -104,10 +104,7 @@ export default function AdminVillagePhotosPage() {
   return (
     <div className="mx-auto w-full max-w-3xl">
       <h1 className="text-xl font-bold text-brand-dark">গ্রামের ছবি</h1>
-      <p className="mt-1 text-sm text-neutral-500">
-            গ্রাম পেজে দেখানো ছবি পরিচালনা।
-          </p>
-
+      
       {!g.isConfigured ? (
         <p className="mt-4 rounded-2xl border border-amber-200 bg-amber-50 p-5 text-sm text-amber-800">
           Supabase সংযুক্ত নয় — সংরক্ষণ করা যাবে না।
@@ -122,7 +119,7 @@ export default function AdminVillagePhotosPage() {
         <section className="mt-4 rounded-2xl border border-neutral-200 bg-white p-4 sm:p-5">
           <h2 className="text-base font-bold text-brand-dark">শুরু করুন</h2>
           <p className="mt-1 text-sm text-neutral-600">
-            ছবি রাখার জন্য প্রথমে "{VILLAGE_ALBUM_TITLE}" নামে একটি অ্যালবাম তৈরি করতে হবে — একবারই করতে হয়।
+            "{VILLAGE_ALBUM_TITLE}" নামে একটি অ্যালবাম তৈরি করতে হবে।
           </p>
           <button
             type="button"

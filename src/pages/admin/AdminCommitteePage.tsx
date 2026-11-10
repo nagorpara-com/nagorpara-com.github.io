@@ -206,10 +206,7 @@ export default function AdminCommitteePage() {
     <div className="grid gap-5">
       <div>
         <h1 className="text-xl font-bold text-dark-green">কমিটি পরিচালনা</h1>
-        <p className="mt-1 text-sm text-slate-500">
-          কমিটির সদস্য যোগ, সম্পাদনা ও মুছে ফেলুন।
-        </p>
-      </div>
+              </div>
 
       {!data.isConfigured && (
         <p className="rounded-lg border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-800">
@@ -359,13 +356,13 @@ export default function AdminCommitteePage() {
                 <label className={labelCls} htmlFor="cm-phone">মোবাইল নম্বর (ঐচ্ছিক)</label>
                 <input id="cm-phone" className={inputCls} value={form.phone} maxLength={11} placeholder="01XXXXXXXXX" onChange={(e) => set("phone", e.target.value)} />
                 {fieldErrors.phone && <p className="mt-1 text-xs text-red-600">{fieldErrors.phone}</p>}
-                <p className="mt-1 text-xs text-slate-400">প্রকাশিত থাকলে নম্বরটি Website-এর কার্ডে দেখাবে।</p>
+                <p className="mt-1 text-xs text-slate-400">প্রকাশিত থাকলে Website-এ দেখাবে।</p>
               </div>
               <div>
                 <label className={labelCls} htmlFor="cm-facebook">মেসেজের লিংক — Facebook প্রোফাইল (ঐচ্ছিক)</label>
                 <input id="cm-facebook" className={inputCls} value={form.facebook_url} maxLength={300} placeholder="https://www.facebook.com/…" onChange={(e) => set("facebook_url", e.target.value)} />
                 {fieldErrors.facebook_url && <p className="mt-1 text-xs text-red-600">{fieldErrors.facebook_url}</p>}
-                <p className="mt-1 text-xs text-slate-400">লিংক দিলে Website-এর কার্ডে "মেসেজ" বাটন এই লিংকে যাবে; না দিলে SMS যাবে।</p>
+                <p className="mt-1 text-xs text-slate-400">লিংক না দিলে SMS যাবে।</p>
               </div>
               <div>
                 <label className={labelCls} htmlFor="cm-order">ক্রম</label>

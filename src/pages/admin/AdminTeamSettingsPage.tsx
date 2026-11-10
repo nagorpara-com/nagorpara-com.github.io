@@ -129,9 +129,7 @@ export default function AdminTeamSettingsPage() {
           <h2 className="text-base font-bold text-brand-dark">
             {sport === "football" ? "Football Team Settings" : "Cricket Team Settings"}
           </h2>
-          <p className="mt-1 text-xs leading-relaxed text-neutral-500">
-            টিমের নাম ও লোগো এখন টিম-নিবন্ধন থেকে আসে — এখানে আমাদের টিম বাছাই আর বর্তমান মৌসুম ঠিক করা যায়।
-          </p>
+          <p className="mt-1 text-xs leading-relaxed text-neutral-500">টিমের নাম ও লোগো টিম-নিবন্ধন থেকে আসে।</p>
           <div className="mt-3 grid gap-3 sm:grid-cols-2">
             <div>
               <label className={labelCls} htmlFor="ts-season">
@@ -169,9 +167,7 @@ export default function AdminTeamSettingsPage() {
                 এই যোগসূত্রটি চালু করতে Migration 0048 Live Apply করতে হবে — সেটি মালিকের আলাদা অনুমতিতে হবে।
               </p>
             ) : ownTeamValue ? (
-              <p className="mt-1 text-xs text-neutral-500">
-                Public সাইটে এই টিমের নাম দেখাবে (লোগো থাকলে লোগোও) — দেখাতে হলে টিমটি টিম-নিবন্ধনে প্রকাশিত থাকতে হবে।
-              </p>
+              <p className="mt-1 text-xs text-neutral-500">Public সাইটে নাম ও লোগো দেখাতে টিমটি প্রকাশিত থাকতে হবে।</p>
             ) : null}
           </div>
 

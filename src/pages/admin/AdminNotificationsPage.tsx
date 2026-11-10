@@ -386,9 +386,7 @@ export default function AdminNotificationsPage() {
       <header className="flex flex-wrap items-start justify-between gap-3">
         <div>
           <h1 className="text-xl font-bold text-dark-green">নোটিফিকেশন</h1>
-          <p className="mt-1 text-sm text-slate-600">
-            নোটিফিকেশন লিখে পাঠান — Publish-এ প্রকাশ ও ইমেইল একসঙ্গে হয়।
-          </p>
+          <p className="mt-1 text-sm text-slate-600">Publish করলে Website ও ইমেইল একসঙ্গে যাবে।</p>
         </div>
         {canEdit && (
           <button type="button" onClick={startNew} className={primaryBtn}>
@@ -484,9 +482,7 @@ export default function AdminNotificationsPage() {
             {fieldErrors.button_url && <p className="mt-1 text-xs text-red-600">{fieldErrors.button_url}</p>}
           </div>
         </div>
-        <p className="-mt-2 text-xs text-slate-400">
-          বাটন দিতে হলে লেখা ও লিংক — দুটোই দিতে হবে। লিংক শুধু http(s) হতে পারবে; বাটনটি Website, Popup ও ইমেইলে একইভাবে দেখা যাবে।
-        </p>
+        <p className="-mt-2 text-xs text-slate-400">বাটনের লেখা ও লিংক দুটোই লাগবে; লিংক শুধু http(s)।</p>
         {/* Live preview of the notification as visitors see it */}
         <div className="rounded-lg border border-slate-200 bg-slate-50 p-4" aria-label="নোটিফিকেশন প্রিভিউ">
           <p className="text-xs font-bold uppercase tracking-wide text-slate-400">প্রিভিউ</p>

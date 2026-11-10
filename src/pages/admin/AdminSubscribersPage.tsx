@@ -110,10 +110,7 @@ export default function AdminSubscribersPage() {
     <div className="grid gap-5">
       <div>
         <h1 className="text-2xl font-extrabold text-slate-800">ইমেইল গ্রাহক</h1>
-        <p className="mt-1 text-sm text-slate-500">
-            সাবস্ক্রাইব করা ব্যক্তিদের তালিকা।
-          </p>
-      </div>
+              </div>
 
       <div className="flex flex-wrap items-center gap-2">
         {FILTERS.map((f) => (

@@ -252,10 +252,7 @@ export default function AdminDashboardPage() {
             <h1 className="text-xl font-bold text-brand-dark">
               স্বাগতম, {profile?.full_name ?? "Admin"}
             </h1>
-            <p className="mt-1 text-sm text-neutral-500">
-              নগর পাড়া অগ্রগামী যুব সংঘের কার্যক্রম ও ব্যবস্থাপনার সারসংক্ষেপ
-            </p>
-          </div>
+                      </div>
           <p className="text-sm font-medium text-neutral-500">{today}</p>
         </div>
       </div>

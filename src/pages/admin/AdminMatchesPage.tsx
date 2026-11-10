@@ -1547,9 +1547,7 @@ export default function AdminMatchesPage({
                       />
                       সাবস্ক্রাইবারদের ইমেইল পাঠান
                     </label>
-                    <p className="mt-1 text-xs text-neutral-500">
-                      টুর্নামেন্ট প্রকাশিত অবস্থায় সেভ হলেই পাঠানো হবে।
-                    </p>
+                    <p className="mt-1 text-xs text-neutral-500">টুর্নামেন্ট প্রকাশিত থাকলেই পাঠানো হবে।</p>
                   </div>
                   <div>
                     <label className={labelCls} htmlFor="t-start">শুরুর তারিখ (ঐচ্ছিক)</label>
@@ -2093,11 +2091,7 @@ export default function AdminMatchesPage({
                         {mOrig.venue ? ` · ${mOrig.venue}` : ""}
                       </p>
                     )}
-                    <p className="mt-1 text-xs text-neutral-500">
-                      স্কোর ও ফলাফল দিয়ে সংরক্ষণ করুন — ম্যাচটি &quot;সমাপ্ত&quot; হিসেবে
-                      ঘোষণা হবে। প্লেয়ারদের গোল, কার্ড, রান ও উইকেটের বিবরণ এই পেজের
-                      নিচের Performance অংশে দিন।
-                    </p>
+                    <p className="mt-1 text-xs text-neutral-500">স্কোর ও ফলাফল দিয়ে সংরক্ষণ করলে ম্যাচটি &quot;সমাপ্ত&quot; ঘোষণা হবে।</p>
                   </div>
                 )}
                 {mView === "report" && orphanTeamLink && (
@@ -2193,10 +2187,7 @@ export default function AdminMatchesPage({
                         code={mForm.team_b_id ? mEntryCodes.get(mForm.team_b_id) : undefined}
                       />
                     )}
-                    <p className="mt-1 text-xs text-neutral-500">
-                      দুই টিম বাছলে পয়েন্ট টেবিল/ব্র্যাকেটে ম্যাচটি নিজে থেকে হিসাব হবে।
-                    </p>
-                  </div>
+                                      </div>
                   <div>
                     <label className={labelCls} htmlFor="m-opponent">প্রতিপক্ষ *</label>
                     {formTeams.length > 0 && (
@@ -2249,9 +2240,7 @@ export default function AdminMatchesPage({
                       শুধু {SPORT_LABELS[mForm.sport]} টুর্নামেন্ট দেখানো হচ্ছে।
                     </p>
                     {!mForm.tournament_id && (
-                      <p className="mt-1 text-xs font-medium text-brand-dark">
-                        কোনো টুর্নামেন্ট বাছা হয়নি — এই ম্যাচটি প্রীতি/স্বতন্ত্র ম্যাচ হিসেবে সংরক্ষিত হবে।
-                      </p>
+                      <p className="mt-1 text-xs font-medium text-brand-dark">এই ম্যাচটি স্বতন্ত্র ম্যাচ হিসেবে সংরক্ষিত হবে।</p>
                     )}
                     {knockoutEliminated.size > 0 && (
                       <p className="mt-1 text-xs font-medium text-red-700">
@@ -2274,10 +2263,7 @@ export default function AdminMatchesPage({
                       onChange={(e) => setMForm({ ...mForm, match_no: e.target.value })}
                       placeholder="যেমন: 1, 2, 3"
                     />
-                    <p className="mt-1 text-xs text-neutral-500">
-                      একই টুর্নামেন্টে একই নম্বর দুবার হবে না — সংরক্ষণের আগে যাচাই করা হয়।
-                    </p>
-                  </div>
+                                      </div>
                   {autoRoundActive ? (
                     <div>
                       <span className={labelCls}>ম্যাচের ধাপ / রাউন্ড (স্বয়ংক্রিয়)</span>
@@ -2287,10 +2273,7 @@ export default function AdminMatchesPage({
                       >
                         {autoRoundName ?? "হিসাব হচ্ছে…"}
                       </p>
-                      <p className="mt-1 text-xs text-neutral-500">
-                        এই টুর্নামেন্টে আগে তৈরি ম্যাচের সংখ্যা অনুযায়ী রাউন্ড নিজে থেকে
-                        নির্ধারিত হয় — হাতে বাছতে হয় না।
-                      </p>
+                      <p className="mt-1 text-xs text-neutral-500">রাউন্ড ম্যাচের সংখ্যা অনুযায়ী নিজে থেকে নির্ধারিত হয়।</p>
                     </div>
                   ) : (
                     <div>
@@ -2375,10 +2358,7 @@ export default function AdminMatchesPage({
                             </option>
                           ))}
                       </select>
-                      <p className="mt-1 text-xs text-neutral-500">
-                        খেলা শেষ হলে &quot;বিজয়ী দল ঘোষণা&quot; পেজে ফলাফল ঘোষণা করুন —
-                        তখনই ম্যাচটি সমাপ্ত হবে।
-                      </p>
+                      <p className="mt-1 text-xs text-neutral-500">ফলাফল &quot;বিজয়ী দল ঘোষণা&quot; পেজে ঘোষণা করুন।</p>
                     </div>
                   )}
                   {mView === "report" && (
@@ -2531,9 +2511,7 @@ export default function AdminMatchesPage({
                         )}
                       </select>
                       {mDecision === "normal" && (
-                        <p className="mt-1 text-xs font-medium text-brand-dark">
-                          স্কোর থেকেই বিজয়ী ঠিক হবে — নিচের টিকগুলো দেওয়ার দরকার নেই।
-                        </p>
+                        <p className="mt-1 text-xs font-medium text-brand-dark">স্কোর থেকেই বিজয়ী ঠিক হবে।</p>
                       )}
                     </div>
                   )}
@@ -2644,24 +2622,15 @@ export default function AdminMatchesPage({
                         </p>
                       )}
                       {mDecision === "normal" ? (
-                        <p className="mt-1 text-xs text-neutral-500">
-                          স্কোর থেকেই বিজয়ী ঠিক হবে — পয়েন্ট টেবিল ও ব্র্যাকেট এই একই ফলাফল
-                          ব্যবহার করে।
-                        </p>
+                        <p className="mt-1 text-xs text-neutral-500">স্কোর থেকেই বিজয়ী ঠিক হবে।</p>
                       ) : mDecision === "shootout" ? (
                         <p className="mt-1 text-xs text-neutral-500">
                           শুটআউটের স্কোর থেকেই বিজয়ী ঠিক হবে।
                         </p>
                       ) : mDecision === "no_result" ? (
-                        <p className="mt-1 text-xs text-neutral-500">
-                          পরিত্যক্ত ম্যাচে কোনো বিজয়ী থাকে না — পয়েন্ট টেবিলে দুই দলই
-                          ড্র পয়েন্ট পাবে।
-                        </p>
+                        <p className="mt-1 text-xs text-neutral-500">বিজয়ী নেই — দুই দলই ড্র পয়েন্ট পাবে।</p>
                       ) : (
-                        <p className="mt-1 text-xs text-neutral-500">
-                          এই ধরনের জয়ে বিজয়ী স্কোর থেকে ধরা যায় না — বিজয়ী দলে টিক দিন।
-                          পয়েন্ট টেবিল ও ব্র্যাকেট এই একই ফলাফল ব্যবহার করে।
-                        </p>
+                        <p className="mt-1 text-xs text-neutral-500">বিজয়ী দলে টিক দিন।</p>
                       )}
                     </div>
                   )}
@@ -2886,11 +2855,7 @@ export default function AdminMatchesPage({
                 <h3 className="text-base font-bold text-red-800">
                   কার্ড সাসপেনশন — পরের ম্যাচে নিষিদ্ধ
                 </h3>
-                <p className="mt-1 text-xs text-red-700">
-                  নিয়ম: একটি ম্যাচে লাল কার্ড, একই ম্যাচে ২টি হলুদ কার্ড, অথবা জমে
-                  যাওয়া মোট ২টি হলুদ কার্ডে এক ম্যাচ নিষিদ্ধ। পরের কোনো সমাপ্ত ম্যাচে
-                  খেললে নিষেধাজ্ঞা শেষ ধরা হয়।
-                </p>
+                <p className="mt-1 text-xs text-red-700">নিয়ম: এক ম্যাচে লাল কার্ড, একই ম্যাচে ২টি হলুদ, বা জমা মোট ২টি হলুদ কার্ডে ১ ম্যাচ নিষিদ্ধ; পরের সমাপ্ত ম্যাচে খেললে তা শেষ ধরা হয়।</p>
                 <ul className="mt-2 space-y-1">
                   {suspensions.map((s) => (
                     <li
@@ -3732,10 +3697,7 @@ function MatchEventsPanel({
       <p className="text-sm font-semibold text-neutral-800">
         {SPORT_LABELS[match.sport]} · বনাম {match.opponent} · {formatDate(match.match_date)}
       </p>
-      <p className="mt-1 text-xs text-neutral-500">
-        ম্যাচের গুরুত্বপূর্ণ মুহূর্তগুলো যোগ করুন — Public ম্যাচ পেজে ঘটনাগুলো
-        টাইমলাইন আকারে দেখাবে।
-      </p>
+      <p className="mt-1 text-xs text-neutral-500">Public ম্যাচ পেজে টাইমলাইনে দেখাবে।</p>
 
       {tableMissing ? (
         <div
@@ -4330,10 +4292,7 @@ function TournamentTablePanel({
           </Link>
         </div>
       </div>
-      <p className="mt-1 text-xs text-neutral-500">
-        নোটিফিকেশন ও ইমেইল দুটোই বিদ্যমান নোটিফিকেশন সিস্টেম থেকে যায় — ওই পেজে নোটিশ তৈরি করে
-        প্রকাশ করলেই ওয়েবসাইটে দেখাবে এবং গ্রাহকদের ইমেইল যাবে (Gmail অপশনসহ)।
-      </p>
+      <p className="mt-1 text-xs text-neutral-500">নোটিশ &quot;নোটিফিকেশন&quot; পেজে প্রকাশ করলেই Website-এ দেখাবে ও ইমেইল যাবে।</p>
 
       {champion && (
         <p className="mt-3 rounded-xl bg-gold/15 px-3 py-2 text-sm font-bold text-brand-dark">

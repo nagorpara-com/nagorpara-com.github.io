@@ -1,0 +1,5 @@
+# Nagar Para Agragami Youth Sangha — all crawlers welcome.
+User-agent: *
+Allow: /
+
+Sitemap: https://fbsohel.github.io/nagar-para.com/sitemap.xml

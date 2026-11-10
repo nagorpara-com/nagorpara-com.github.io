@@ -214,7 +214,7 @@ export default function VillagePageSettingsCard() {
         Village Page-এর Banner
       </h2>
       <p className="mt-1 text-sm text-slate-500">
-        গ্রাম পেজের ব্যানার স্লাইডার — সর্বোচ্চ {MAX_VILLAGE_BANNERS}টি ছবি, প্রকাশিত ছবিগুলো Website-এ নিজে নিজে বদলায়।
+        ব্যানার — সর্বোচ্চ {MAX_VILLAGE_BANNERS}টি ছবি।
       </p>
 
       <div className="mt-4 grid gap-5">
@@ -336,7 +336,7 @@ export default function VillagePageSettingsCard() {
                       />
                     </div>
                   </div>
-                  <p className="text-xs text-slate-500">বাটন দিতে হলে লেখা ও লিংক দুটোই লাগবে; লিংক শুধু ওয়েবসাইটের ভিতরের পেজ (/ দিয়ে শুরু) অথবা http(s) ঠিকানা হতে পারবে।</p>
+                  <p className="text-xs text-slate-500">বাটনের লেখা ও লিংক দুটোই লাগবে; লিংক / দিয়ে শুরু অথবা http(s)।</p>
                   <label className="flex items-center gap-2 text-sm text-slate-600">
                     <input type="checkbox" checked={form.show_text} onChange={(e) => set("show_text", e.target.checked)} />
                     লেখা দেখানো হবে

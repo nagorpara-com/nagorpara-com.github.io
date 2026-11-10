@@ -233,10 +233,7 @@ export default function AdminHeaderFooterPage() {
   return (
     <div className="max-w-3xl">
       <h1 className="text-xl font-bold text-brand-dark">হেডার ও ফুটার</h1>
-      <p className="mt-1 text-sm text-neutral-500">
-            Header ও Footer-এর তথ্য এখান থেকে বদলান।
-          </p>
-
+      
       {loading && <p className="mt-6 text-sm text-neutral-500">তথ্য লোড হচ্ছে…</p>}
       {loadError && (
         <div className="mt-4 rounded-xl border border-red-200 bg-red-50 p-4 text-sm text-red-800" role="alert">

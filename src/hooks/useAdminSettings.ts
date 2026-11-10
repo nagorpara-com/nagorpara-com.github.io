@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useState } from "react";
 import { isSupabaseConfigured, supabase } from "../lib/supabaseClient";
+import { compressImageForUpload } from "../utils/compressImage";
 
 /**
  * Admin data layer for Website Settings (Batch 1).
@@ -224,14 +225,17 @@ export function useAdminSettings() {
     [],
   );
 
-  /** Upload a new logo to the existing `site-assets` bucket. */
+  /** Upload a new logo to the existing `site-assets` bucket.
+   * v191: the logo is compressed in the browser first (cap
+   * 1024 px) like every other Admin photo upload. */
   const uploadLogo = useCallback(async (file: File): Promise<{ url?: string; error?: string }> => {
     if (!supabase) return { error: "Supabase সংযুক্ত নয়।" };
-    const ext = file.name.split(".").pop()?.toLowerCase() ?? "png";
+    const uploadFile = await compressImageForUpload(file, 1024);
+    const ext = uploadFile.name.split(".").pop()?.toLowerCase() ?? "png";
     const path = `branding/logo-${Date.now()}.${ext}`;
     const { error } = await supabase.storage
       .from("site-assets")
-      .upload(path, file, { upsert: true, contentType: file.type });
+      .upload(path, uploadFile, { upsert: true, contentType: uploadFile.type });
     if (error) return { error: error.message };
     const { data } = supabase.storage.from("site-assets").getPublicUrl(path);
     return { url: data.publicUrl };

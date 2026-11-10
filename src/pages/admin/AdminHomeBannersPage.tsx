@@ -106,10 +106,7 @@ export default function AdminHomeBannersPage() {
     <div className="grid gap-6">
       <div>
         <h1 className="text-xl font-bold text-dark-green">ব্যানার পরিচালনা</h1>
-        <p className="mt-1 text-sm text-slate-500">
-            হোমপেজের ব্যানার যোগ, সম্পাদনা ও মুছে ফেলুন।
-          </p>
-      </div>
+              </div>
 
       {!data.isConfigured && (
         <p className="rounded-lg border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-800">

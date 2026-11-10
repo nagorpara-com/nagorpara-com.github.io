@@ -113,10 +113,7 @@ export default function AdminImportantPlacesPage() {
   return (
     <div className="mx-auto w-full max-w-3xl">
       <h1 className="text-xl font-bold text-brand-dark">গুরুত্বপূর্ণ স্থান</h1>
-      <p className="mt-1 text-sm text-neutral-500">
-            ছবি ও ভিডিওসহ গ্রামের স্থান পরিচালনা।
-          </p>
-
+      
       {v.videoPending && (
         <p className="mt-4 rounded-2xl border border-amber-200 bg-amber-50 p-4 text-sm text-amber-800">
           ভিডিওর Database অংশ (Migration 0038) এখনো লাইভ হয়নি — আপাতত ছবি ও লেখা সংরক্ষণ হবে; 0038 লাইভ হলেই ভিডিও আপলোড চালু হবে।

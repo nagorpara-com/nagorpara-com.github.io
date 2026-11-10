@@ -52,10 +52,7 @@ export default function FootballTeamLogoField() {
   return (
     <div className="mt-4 rounded-xl border border-neutral-200 bg-neutral-50 px-4 py-3">
       <p className="text-sm font-semibold text-brand-dark">টিমের লোগো</p>
-      <p className="mt-1 text-xs leading-relaxed text-neutral-500">
-        ওয়েবসাইটের টিম-কার্ডে বর্গাকার (1:1) frame-এ দেখাবে — Mobile-এ 96px, Desktop-এ 128px।
-        স্বচ্ছ পেছনের (transparent) PNG সবচেয়ে ভালো দেখায়। লোগো না দিলে সংগঠনের লোগো দেখাবে।
-      </p>
+      <p className="mt-1 text-xs leading-relaxed text-neutral-500">বর্গাকার (1:1) ফ্রেমে দেখাবে। Transparent PNG ভালো দেখায়; না দিলে সংগঠনের লোগো দেখাবে।</p>
       <div className="mt-3 flex flex-wrap items-start gap-4">
         <span className="flex h-24 w-24 shrink-0 items-center justify-center rounded-2xl border border-neutral-200 bg-white p-2">
           {draft ? (

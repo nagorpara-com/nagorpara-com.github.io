@@ -10,6 +10,7 @@ import {
   cricketRolePositionText,
 } from "../../config/positions";
 import PhotoUploadField from "../../components/admin/PhotoUploadField";
+import { compressImageForUpload } from "../../utils/compressImage";
 import type {
   Player,
   PlayerProfileSection,
@@ -571,8 +572,11 @@ export default function AdminPlayersPage() {
     }
     setSecUploading(true);
     setError(null);
-    const path = `media/${editingPlayer.id}/${Date.now()}-${file.name.replace(/[^\w.-]+/g, "_")}`;
-    const { error: upErr } = await supabase.storage.from("player-photos").upload(path, file);
+    // v191: same browser-side compression as every other
+    // Admin photo upload before the file is stored.
+    const uploadFile = await compressImageForUpload(file);
+    const path = `media/${editingPlayer.id}/${Date.now()}-${uploadFile.name.replace(/[^\w.-]+/g, "_")}`;
+    const { error: upErr } = await supabase.storage.from("player-photos").upload(path, uploadFile);
     if (upErr) {
       setSecUploading(false);
       setError(`ছবি আপলোড ব্যর্থ: ${upErr.message}`);
@@ -847,7 +851,7 @@ export default function AdminPlayersPage() {
 
       <div className="mt-4 flex flex-wrap items-center justify-between gap-2 rounded-2xl border border-neutral-200 bg-white px-4 py-3">
         <p className="text-sm text-neutral-600">
-          টিমের নাম ও লোগো এখন <strong>টিম নিবন্ধন</strong> থেকে আসে। নিজের টিম বাছাই ও বর্তমান মৌসুম <strong>Team Settings</strong> পেজে পরিচালিত হয়।
+          টিমের নাম ও লোগো <strong>টিম নিবন্ধন</strong> থেকে আসে; নিজের টিম ও মৌসুম <strong>Team Settings</strong>-এ।
         </p>
         <Link to={`/admin/team-settings?sport=${sport}`} className="rounded-lg border border-brand px-3 py-1.5 text-sm font-medium text-brand hover:bg-brand hover:text-white">
           Team Settings খুলুন
@@ -1045,10 +1049,7 @@ export default function AdminPlayersPage() {
                   </button>
                 )}
               </div>
-              <p className="mt-1 text-xs leading-relaxed text-neutral-500">
-                প্রতিটি বিভাগ আলাদাভাবে সংরক্ষিত হয় — নিচের Save বোতাম শুধু প্লেয়ারের মৌলিক তথ্যের জন্য।
-                Public পেজে বিভাগ দেখাবে শুধু যখন প্লেয়ার Published থাকবে এবং বিভাগটি "দৃশ্যমান" থাকবে (Database RLS দিয়ে নিশ্চিত)।
-              </p>
+              <p className="mt-1 text-xs leading-relaxed text-neutral-500">প্রতিটি বিভাগ আলাদাভাবে Save হয়; বিভাগ দেখাবে প্লেয়ার Published থাকলে।</p>
 
               {sections.length === 0 && secEditing === null && (
                 <p className="mt-3 rounded-lg border border-dashed border-neutral-300 px-3 py-4 text-center text-xs text-neutral-500">
@@ -1104,7 +1105,7 @@ export default function AdminPlayersPage() {
                           <option key={t} value={t}>{SECTION_TYPE_LABEL[t]}</option>
                         ))}
                       </select>
-                      {secEditing !== "new" && <p className="mt-1 text-[11px] text-neutral-500">ধরন তৈরি হয়ে গেলে বদলানো যায় না — প্রয়োজনে বিভাগ মুছে নতুন করে যোগ করুন।</p>}
+                      {secEditing !== "new" && <p className="mt-1 text-[11px] text-neutral-500">ধরন পরে বদলানো যায় না।</p>}
                     </div>
                     <div>
                       <label className={labelCls} htmlFor="sf-title">শিরোনাম *</label>
@@ -1210,7 +1211,7 @@ export default function AdminPlayersPage() {
             </div>
           )}
           {editing === "new" && (
-            <p className="mt-4 text-xs text-neutral-500">প্লেয়ার Save করার পর এখান থেকে প্রোফাইল বিভাগ (Custom Fields, Career, Achievements, Media, Links) যোগ করা যাবে।</p>
+            <p className="mt-4 text-xs text-neutral-500">প্লেয়ার Save করার পর বিভাগ যোগ করা যাবে।</p>
           )}
 
           <div className="mt-5 flex gap-2">
