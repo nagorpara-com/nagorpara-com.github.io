@@ -2,4 +2,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://fbsohel.github.io/nagar-para.com/sitemap.xml
+Sitemap: https://nagorpara-com.github.io/sitemap.xml
